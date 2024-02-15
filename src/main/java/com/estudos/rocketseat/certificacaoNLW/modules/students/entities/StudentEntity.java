@@ -1,7 +1,10 @@
 package com.estudos.rocketseat.certificacaoNLW.modules.students.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,4 +31,7 @@ public class StudentEntity {
 
     @OneToMany(mappedBy = "studentEntity")
     private List<CertificationStudentEntity> certificationStudentEntitity;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }
