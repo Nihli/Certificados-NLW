@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.estudos.rocketseat.certificacaoNLW.modules.questions.entities.QuestionEntity;
 import com.estudos.rocketseat.certificacaoNLW.modules.questions.repositories.QuestionRepository;
 import com.estudos.rocketseat.certificacaoNLW.modules.students.dto.StudentCertificationAnswerDto;
+import com.estudos.rocketseat.certificacaoNLW.modules.students.dto.VerifyHasCertificationDTO;
 import com.estudos.rocketseat.certificacaoNLW.modules.students.entities.AnswersCertificationsEntity;
 import com.estudos.rocketseat.certificacaoNLW.modules.students.entities.CertificationStudentEntity;
 import com.estudos.rocketseat.certificacaoNLW.modules.students.entities.StudentEntity;
@@ -28,7 +29,17 @@ public class StudentCertificationAnswerUseCase {
     @Autowired
     private CertificationStudentRepository certificationStudentRepository;
 
-    public CertificationStudentEntity execute(StudentCertificationAnswerDto dto) {
+    @Autowired
+    private VerifyIfHasCertificationUseCase vCertificationUseCase;
+
+    public CertificationStudentEntity execute(StudentCertificationAnswerDto dto) throws Exception {
+        var hasCertification = vCertificationUseCase
+                .execute(new VerifyHasCertificationDTO(dto.getEmail(), dto.getTechnology()));
+
+        if (hasCertification) {
+            throw new Exception("Certificação já concluída");
+        }
+
         List<QuestionEntity> questions = questionRepository.findByTechnology(dto.getTechnology());
         List<AnswersCertificationsEntity> answersCertifications = new ArrayList<>();
 

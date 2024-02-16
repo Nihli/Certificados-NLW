@@ -7,7 +7,7 @@ import com.estudos.rocketseat.certificacaoNLW.modules.students.dto.VerifyHasCert
 import com.estudos.rocketseat.certificacaoNLW.modules.students.repositories.CertificationStudentRepository;
 
 @Service
-public class verifyIfHasCertificationUseCase {
+public class VerifyIfHasCertificationUseCase {
 
     @Autowired
     private CertificationStudentRepository repository;

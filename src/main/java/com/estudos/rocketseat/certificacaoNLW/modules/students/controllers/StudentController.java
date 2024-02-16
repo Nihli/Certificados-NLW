@@ -1,6 +1,7 @@
 package com.estudos.rocketseat.certificacaoNLW.modules.students.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,16 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estudos.rocketseat.certificacaoNLW.modules.students.dto.StudentCertificationAnswerDto;
 import com.estudos.rocketseat.certificacaoNLW.modules.students.dto.VerifyHasCertificationDTO;
-import com.estudos.rocketseat.certificacaoNLW.modules.students.entities.CertificationStudentEntity;
 import com.estudos.rocketseat.certificacaoNLW.modules.students.useCases.StudentCertificationAnswerUseCase;
-import com.estudos.rocketseat.certificacaoNLW.modules.students.useCases.verifyIfHasCertificationUseCase;
+import com.estudos.rocketseat.certificacaoNLW.modules.students.useCases.VerifyIfHasCertificationUseCase;
 
 @RestController
 @RequestMapping("/students")
 public class StudentController {
 
     @Autowired
-    private verifyIfHasCertificationUseCase verifyIfHasCertificationUseCase;
+    private VerifyIfHasCertificationUseCase verifyIfHasCertificationUseCase;
 
     @Autowired
     private StudentCertificationAnswerUseCase studentCertificationAnswerUseCase;
@@ -34,7 +34,12 @@ public class StudentController {
     }
 
     @PostMapping("/certification/answer")
-    public CertificationStudentEntity CertificationAnswer(@RequestBody StudentCertificationAnswerDto dto) {
-        return this.studentCertificationAnswerUseCase.execute(dto);
+    public ResponseEntity<Object> CertificationAnswer(@RequestBody StudentCertificationAnswerDto dto) {
+        try {
+            return ResponseEntity.ok().body(this.studentCertificationAnswerUseCase.execute(dto));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
