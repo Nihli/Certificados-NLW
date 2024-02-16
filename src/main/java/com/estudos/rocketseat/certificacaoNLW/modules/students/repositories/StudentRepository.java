@@ -1,6 +1,5 @@
 package com.estudos.rocketseat.certificacaoNLW.modules.students.repositories;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<StudentEntity, UUID> {
-    public Optional<List<StudentEntity>> findByEmail(String email);
+    public List<StudentEntity> findByEmail(String email);
 }
